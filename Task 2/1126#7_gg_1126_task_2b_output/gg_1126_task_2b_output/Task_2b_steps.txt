@@ -1,0 +1,61 @@
+Team ID = GG_1126
+Trained weights drive link = "https://drive.google.com/file/d/1BVVXM-qlreXFjQAqv0RhZrBgFLA3hbkx/view?usp=share_link"
+
+###############################################################################
+'''
+Please write the complete steps taken by your team explaining how you completed Task 2B. It is adviced to be as elaborate as possible.
+
+Step 1:
+Firstly, we have gone through the study material provided by the Eyantra team on Resources:
+Object classification, detection, segmentation
+Introduction to Convolutional Neural Network (CNN)
+Course lecture on Convolutional Neural Network
+Visualizing CNN
+Convolutional Neural Network using PyTorch
+PyTorch Computer Vision
+PyTorch Custom Datasets
+CNN video tutorial
+Transfer learning
+Guide to transfer learning
+Transfer learning using PyTorch
+Transfer learning video tutorial
+
+Step 2:
+Next, we begin by importing the necessary tools for our project, including PyTorch, NumPy, and other libraries for working with deep learning and images. 
+These libraries provide the foundation for our work.
+Our dataset consists of images for a specific classification task. 
+To prepare the data for training, we define a set of transformations. 
+These include resizing, cropping, and even some random horizontal flips. 
+We also normalize the images to ensure they are in a suitable format for our model.
+
+Step 3:
+We load our image data and split it into training and validation sets. 
+These sets are used to teach and evaluate our model's performance. 
+We create data loaders to efficiently manage our data during training.
+
+Step 4:
+To better understand our data, we define a function to visualize a batch of training images. 
+This helps us get a sense of what we're working with.
+
+Step 5:
+We have a function, train_model, that takes care of training our model. Here's what it does:
+It saves a temporary checkpoint directory to keep track of the best model.
+The training loop runs for a specified number of epochs.
+In each epoch, we go through both training and validation phases.
+During training, we update our model's weights and calculate gradients.
+In validation, we check how well our model is doing.
+We save the model with the best performance on the validation data.
+The final model is loaded with the best weights.
+We've also created a function to visualize our model's predictions. This helps us see how well it's doing on real data. It runs our model on the validation dataset and shows us both the input images and what the model predicts.
+
+Step 6:
+Before we start training, we set up our model:
+We use a pre-trained ResNet-18 model that has already learned a lot from a massive dataset.
+We freeze the pre-trained layers to protect their knowledge.
+We replace the last layer with a new one to match the number of classes in our dataset.
+We set up our learning rate, optimizer, and learning rate scheduler.
+Then, we call the train_model function to fine-tune our model. The best model is saved for future use.
+We save our hard-earned model using torch.save. This way, we can use it for predictions and other tasks in the future. Our model is named 'Task2B_Model.pth'.
+
+Step 7:
+To kick off the entire process, we run the main function. This starts the training and fine-tuning of our model.

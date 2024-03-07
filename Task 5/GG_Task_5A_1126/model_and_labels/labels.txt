@@ -1,0 +1,6 @@
+0 Combat
+1 Destroyedbuildings
+2 Fire
+3 Humanitarianaid
+4 Militaryvehicles
+5 Empty

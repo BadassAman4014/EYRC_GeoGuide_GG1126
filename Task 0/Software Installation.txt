@@ -1,0 +1,16 @@
+The aim of this task is to get you started with the installation of the required software and learn the resources related to the software.
+This task is divided into three parts:
+
+Software Installation
+Testing the Setup
+Learning Resources
+1. Software and Libraries Installation
+Follow the instructions provided to install the software and libraries on the OS you have on your PC or laptop:
+
+Miniconda for Python 3.9
+OpenCV
+NumPy
+Matplotlib
+PyTorch
+Jupyter Notebook, JupyterLab
+Visual Studio Code

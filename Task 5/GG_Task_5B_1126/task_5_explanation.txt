@@ -1,0 +1,244 @@
+Team id: GG_1126
+
+Process Flow:
+    Import Libraries:
+        Import necessary libraries, including OpenCV, NumPy, Keras, Matplotlib, PIL, TensorFlow, Socket, and others.
+
+    Define Constants:
+        Set various constants like the path to the arena image, event categories, thresholds, and IP addresses.
+
+    Capture Arena Image:
+        Capture an image from the webcam to be used as the arena image.
+
+    Identify Events:
+        Use predefined points in the arena to extract regions of interest (ROIs) and save them as separate images for further processing.
+
+    Classify Events:
+        Load a pre-trained deep learning model to classify the events into different categories using a labeled dataset.
+
+    Draw Bounding Boxes:
+        Draw bounding boxes around identified events on the arena image.
+
+    Generate Path:
+        Generate a path based on the detected events, prioritizing them according to a predefined order.
+
+    Handle Transitions:
+        Define a mechanism to handle transitions between different choices in the generated path, considering the starting position and angles.
+
+    Capture Webcam Feed:
+        Open a webcam feed and capture frames.
+        Detect ArUco markers in the frames.
+        Track the ArUco markers' movements and update their positions.
+
+    Update CSV File:
+        Write the updated positions of ArUco markers to a CSV file ('GG_1126_task_4b.csv').
+
+    Display Results:
+        Display the captured arena image with labeled squares and the webcam feed with ArUco markers' positions.
+
+    Signal Handling and Cleanup:
+        Implement signal handling to gracefully exit the script, including closing sockets and releasing resources.
+
+    Transmission of Path:
+        Establish a socket connection to transmit the generated path to another device.
+
+    Webcam Processing:
+        Continuously process the webcam feed, detect ArUco markers, and update their positions.
+
+    Tracker Function:
+        Define a tracker function to update the positions of ArUco markers and write the updated data to the CSV file.
+
+    Main Execution:
+        Execute the main code, read existing data from the CSV file, and update the data based on the detected ArUco markers.
+
+    Close OpenCV Windows:
+        Release resources and close OpenCV windows.
+
+
+1. Import Libraries
+        import numpy as np
+        import cv2 as cv
+        import os
+        from keras.models import load_model
+        from PIL import Image, ImageOps
+        from tensorflow.keras.models import load_model
+        import matplotlib.pyplot as plt
+        import numpy as np
+        import socket
+        from time import sleep
+        import signal
+        import sys
+        import csv
+
+    The code starts by importing necessary libraries such as NumPy (np), OpenCV (cv), operating system (os), 
+    Keras for loading a pre-trained model, and Pillow (Image module) for image processing.
+
+2. Define Constants
+        arena_path = "arena/arenacap.png"
+        event_list = []
+        combat = "0 Combat"
+        destroyed_building = "1 Destroyedbuildings"
+        fire = "2 Fire"
+        rehab = "3 Humanitarianaid"
+        military_vehicles = "4 Militaryvehicles"
+        empty = "5 Empty"
+
+        threshold = 35
+        ip = "192.168.189.139"     # Mobile
+        # ip = "192.168.1.35"        # Wifi
+
+        points = [(800, 943),
+                (1265, 733),
+                (1265, 530),
+                (782, 540),
+                (800, 222)]
+
+    Here, constants like arena_path, combat, destroyed_building, etc., are defined. 
+    The points list represents coordinates for specific regions in an image.
+
+3. Class Definition: Transition
+        class Transition:
+            def __init__(self):
+                self.from_choice = ''
+                self.to_choice = ''
+                self.path = ''
+                self.angle_change = 0
+
+    A class Transition is defined with properties related to a transition between choices.
+
+4. Function: def transmit_path(instructions):
+    This function sets up a socket connection, 
+    sends instructions (a sequence of movements), and cleans up after transmitting.
+
+5. Function: def cleanup():
+    The cleanup function closes the socket connection.
+
+6. Function: def set_camera_resolution(cap, width, height):
+    Takes a video capture object (cap) and desired resolution as input.
+    Sets the camera resolution using cap.set(cv2.CAP_PROP_FRAME_WIDTH, width) and cap.set(cv2.CAP_PROP_FRAME_HEIGHT, height).
+
+7. Function: def capture_image():
+    This function captures an image from the camera when the 's' key is pressed.
+
+8. Function: def show(image):
+    This function displays an image using OpenCV.
+
+9. Function: def arena_image(arena_path):
+    Loads the arena image from the specified path using OpenCV's cv2.imread().
+    Returns the loaded image as a NumPy array.
+
+10. Event Identification and Classification:
+    event_identification(arena):
+        Processes the arena image to identify potential events (specific techniques not shown in the code).
+        Stores the coordinates of identified events in the points list.
+
+    classify_event(image, model_path, labels_path):
+        Loads a trained machine learning model from model_path using keras.models.load_model()
+        Loads labels from a text file at labels_path.
+        Preprocesses the input image (image) using appropriate techniques for the model.
+        Uses the model to predict the class of the event in the image.
+        Returns the predicted label.
+
+11. Path Generation and Communication:
+    generate_path_array(detected_labels):
+        Takes a list of detected event labels as input.
+        Generates a path array based on event locations and priorities (logic not shown in the code).
+        Returns the path array, likely containing instructions for movement.
+
+12. Function: def handle_transition(prev_choice, current_choice, prev_angle, transition):
+    The handle_transition function manages transitions between different choices in a system. 
+    It takes the previous choice, current choice, previous angle, and a transition object as parameters. 
+    The function uses nested conditions to determine the specific transition logic based on the input choices and angles. 
+    It prints messages describing the transitions, updates the transition object with information 
+    like the previous and current choices, angle changes, and builds a path representing the sequence of movements. 
+    Invalid transitions are also handled, and the prev_angle parameter is updated after each transition. 
+
+13. Function: def task_4a_return(): 
+    The task_4a_return function captures video frames from a camera, processes the frames, and performs various image-related tasks. 
+    When the 's' key is pressed, it captures an image, saves it, and then processes the saved image to 
+    identify events, classify objects, and generate a path based on the detected labels. 
+    Labeled squares are drawn on the processed image to visualize the identified objects. 
+    The function returns information about detected labels, the generated path array, and the final path based on the transitions between choices. 
+
+14. Function: def calculate_marker_angle(corners)
+    Calculates the angle of a marker based on its corners.
+    Takes a list of four corner points as input.
+    Computes the angle in degrees and ensures it is positive.
+    Returns the calculated angle.
+
+15. Function: def calculate_distance_with_orientation(point1, point2, angle1, angle2)
+    Calculates the Euclidean distance between two points considering their orientations.
+    Takes two points and their corresponding angles as input.
+    Converts angles to radians and rotates the coordinates to align with the orientation of the first marker.
+    Computes the distance in the rotated coordinates.
+    Returns the calculated distance.
+
+16. Function: def detect_ArUco_details(image)
+    Detects ArUco markers in an input image.
+    Extracts details such as marker IDs, centers, and angles.
+    Returns a dictionary (ArUco_details_dict) with marker IDs as keys and corresponding details as values.
+
+17. Function: def mark_ArUco_image(image, ArUco_details_dict, ArUco_corners)
+    Marks ArUco markers on an input image with their IDs.
+    Takes an image, ArUco details dictionary, and ArUco corners dictionary as input.
+    Draws the marker IDs at their centers on the image.
+    Returns the modified image.
+
+18. Function: def find_closest_aruco_id(ArUco_details_dict, origin_id)
+    Finds the closest ArUco marker to a given origin marker.
+    Considers the orientation of markers and calculates the closest one based on Euclidean distance.
+    Returns the ID and distance of the closest marker.
+
+19. Function: def read_csv(csv_name)
+    Reads ArUco marker details from a CSV file.
+    Parses the CSV file, extracting ArUco IDs, latitude, and longitude information.
+    Returns a dictionary (lat_lon) with ArUco IDs as keys and corresponding latitude and longitude values.
+
+19. Function: def write_csv(loc, csv_name)
+    Writes ArUco marker details to a CSV file.
+    Takes a dictionary (loc) containing ArUco IDs and corresponding latitude and longitude.
+    Writes the data to a CSV file with the specified name.
+
+20. Function: def tracker(ar_id, lat_lon, written_ids)
+    A function without a complete definition in the provided code snippet.
+    Appears to be related to tracking ArUco markers, involving ArUco IDs, latitude and longitude information, and some set of written IDs. Further context or the complete function definition is needed for a detailed explanation.
+
+21. Function: def process_webcam(lat_lon, written_ids, fpath ,flagg):
+    The process_webcam function captures video frames from a webcam, processes the frames to detect ArUco markers, 
+    and tracks the closest marker's movement. It utilizes the ArUco marker information, latitude and longitude data, 
+    and a set of written IDs for tracking.
+
+        Webcam Setup:
+            Initializes the webcam using OpenCV's cv2.VideoCapture.
+            Checks if the webcam is opened successfully; if not, an error message is printed, and the function returns.
+
+        Frame Processing Loop:
+            Enters a loop where it continuously captures frames from the webcam.
+            Manually crops the frames to remove unwanted regions.
+            Detects ArUco markers in the cropped frame using the detect_ArUco_details function.
+            Finds the closest ArUco marker and calculates the distance to it using the find_closest_aruco_id function.
+
+        Tracker and Data Recording:
+            If a valid ArUco marker is detected within a specified distance threshold:
+            Calls the tracker function to track the marker's movement and obtain latitude and longitude information.
+            Prints the coordinates to the console.
+            Increments a counter (write_count) to control when to reset the set of written IDs.
+
+        Webcam Display:
+            Resizes the cropped frame to 800x800 pixels.
+            Displays the processed frame in a window named "Webcam Frame."
+
+        The loop continues until the 'q' key is pressed, at which point the loop breaks, and the webcam is released.
+        The OpenCV windows are closed, and the function exits.
+
+22. if __name__ == '__main__':
+    The main script begins by initializing a flag variable (flagg) to 0. It then reads latitude and longitude information 
+    from a CSV file ('lat_long.csv') using the read_csv function, and initializes an empty set called written_ids for tracking written IDs.
+    Next, it executes the task_4a_return function, which captures images from a webcam, processes them, and returns information 
+    about identified labels, a sorted path, and a final path. The script prints these results to the console.
+    Finally, the script calls the process_webcam function to start processing video frames from the webcam. 
+    It utilizes latitude and longitude information, the set of written IDs, the final path, and the flag variable.
+    The actual execution of the script depends on the implementation of the functions like task_4a_return, process_webcam, and read_csv. 
+    The script captures real-time webcam frames, identifies ArUco markers, tracks their movement, and records latitude and longitude 
+    information based on the identified markers.
+

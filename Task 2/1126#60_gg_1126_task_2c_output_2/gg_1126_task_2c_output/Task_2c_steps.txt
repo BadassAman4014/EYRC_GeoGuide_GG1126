@@ -1,0 +1,45 @@
+Team ID = GG_1126
+Trained weights drive link = "https://drive.google.com/file/d/1UoOmIah3-iFLDimgIVYz5otcAo6EC-41/view?usp=drive_link"
+
+###############################################################################
+'''
+Please write the complete steps taken by your team explaining how you completed Task 2B. It is adviced to be as elaborate as possible.
+Importing Libraries:
+First, we import the required libraries including OpenCV for image processing and PyTorch for deep learning-based event classification.
+OpenCV is used for image manipulation and processing.
+PyTorch is a deep-learning framework that allows the use of pre-trained models for image classification.
+
+Declaring Variables:
+The code initializes several variables:
+arena_path is the file path to the generated arena image.
+event_list is an empty list to store the extracted event images.
+detected_list is another empty list to store the names of detected events.
+
+Event Extraction from Arena Image:
+The arena_image function loads the generated arena image and processes it to ensure a consistent size.
+Each region of interest (ROI) is resized to 50x50 pixels and then center-cropped to 50x50 pixels. This resizing and cropping adhere to the input size requirements of the deep learning model. The ROI is transformed into a tensor and has its pixel values normalized. This ensures that each ROI becomes a consistent-sized image suitable for subsequent processing.
+It extracts specific regions (ROIs) from the arena image based on predefined coordinates, converts these ROIs into images, and classifies each ROI to determine the event it represents. The extracted and classified event images are then stored in the event_list for further processing.
+
+Event Identification:
+The event_identification function identifies specific regions of interest (ROIs) in the arena image.
+These ROIs contain events of interest.
+The identified ROIs are stored as separate images in the event_list.
+
+Event Classification:
+The classify_event function takes an image as input and uses a pre-trained deep-learning model to classify it.
+It primarily involves:
+Model loading: A pre-trained model (Task2B_ModelV6.pth) is loaded.
+Image preprocessing: The input image is resized and normalized.
+Inference: The model is used to predict the class label (event name).
+The event name (e.g., "combat" or "fire") is returned as the output.
+
+Classification of Extracted Events:
+The classification function processes each extracted event image using the classify_event function.
+It classifies and maps the detected events to predefined event names.
+The detected event names are stored in the detected_list.
+
+Processing of Detected Events:
+The detected_list_processing function writes the detected event names to a text file named "detected_events.txt."
+
+
+
