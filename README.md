@@ -6,6 +6,9 @@ The focus of this theme is to create an autonomous robot capable of navigating a
 
 ## 1. Introduction
 Five random events are placed on the arena at 5 positions. Using the overhead camera, the base station has to identify the events and conveys the information to the Vanguard robot. The robot, with the help of its path planning algorithms prepares a path to traverse the arena while following the correct priority as per the rulebook.
+
+## Arena
+
 ![image](assets/arena.png)
 
 ## 2. Problem Statement
