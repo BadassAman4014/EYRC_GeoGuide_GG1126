@@ -17,4 +17,4 @@ In this task, the team has to make the robot traverse a suitable path on the are
 ## Final Theme Implementation/Demonstration Video
 
 
-[![Theme Implementation](https://i9.ytimg.com/vi_webp/b37LOa5OuzM/mq2.webp?sqp=CJzF7rkG-oaymwEmCMACELQB8quKqQMa8AEB-AH-CYAC0AWKAgwIABABGFggWihlMA8=&rs=AOn4CLD0b06bBWtwtedwrAJWySSHB7O1yg)](https://www.youtube.com/watch?v=xKoBW3wclHw)
+[![Theme Implementation](assets/thumbnail.png)](https://www.youtube.com/watch?v=xKoBW3wclHw)
